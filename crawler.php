@@ -210,7 +210,7 @@ class Crawler {
 
         return $finalResults;
     }
-    
+   
     /**
      * 
      * @param String - A full server path to parse.
@@ -247,5 +247,26 @@ class Crawler {
 
         return $finalResults;
     }
+    
+        /**
+     * 
+     * @param String - A full server path to parse.
+     * @return Array -  A filtered array of all files with their local paths. 
+     */
+    
+    public function find_all_files($domain) 
+    { 
+    $root = scandir($dir); 
+    foreach($root as $value) 
+    { 
+        if($value === '.' || $value === '..') {continue;} 
+        if(is_file("$dir/$value")) {$result[]="$dir/$value";continue;} 
+        foreach(find_all_files("$dir/$value") as $value) 
+        { 
+            $result[]=$value; 
+        } 
+    } 
+    return $result; 
+}
 
 }
