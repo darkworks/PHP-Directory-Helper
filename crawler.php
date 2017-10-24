@@ -254,7 +254,7 @@ class Crawler {
      * @return Array -  A filtered array of all files with their local paths. 
      */
     
-    public function find_all_files($domain) 
+    public function find_all_files($dir) 
     { 
     $root = scandir($dir); 
     foreach($root as $value) 
