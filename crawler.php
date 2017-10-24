@@ -269,17 +269,16 @@ class Crawler {
     return $result; 
 }
 
-/**
+  /**
      * 
      * @param String - A full server path to parse.
      * @param bolean - TRUE/FALSE to check for specfic extnesions.	 
-	 * @param array - Extension list which need to be filtered out.	 
-	 * @param bolean - TRUE/FALSE to Remove spaces in File Path.
-	 * @param bolean - TRUE/FALSE to Remove spaces in file name.
+     * @param array - Extension list which need to be filtered out.	 
+     * @param bolean - TRUE/FALSE to Remove spaces in file paths and file names.
      * @return Array -  A filtered array of all files with their local paths. 
      */
     
-    public function find_all_files_ext($dir,$extacheck=false,$exta_list=array(),$remove_space_in_path=false,$remove_spaces_in_fil_name=false) 
+    public function find_all_files_ext($dir,$extacheck=false,$exta_list=array(),$remove_spaces=false) 
     { 
 	$result = array();
     $root = scandir($dir); 
@@ -290,20 +289,28 @@ class Crawler {
 			if($extacheck){
 			$exta = pathinfo($value, PATHINFO_EXTENSION);
 			if(in_array(strtolower($exta),$exta_list)) {
+				if($remove_spaces){
 				$pathy = str_replace(' ', '_', $dir);
 				rename($dir,$pathy);
 				$fily = str_replace(' ', '_', $value);
 				rename("$pathy/$value","$pathy/$fily");
 				$result[]="$pathy/$fily";
+				}else{
+					$result[]="$dir/$value";
+				}
 			}else{
 				// unlink("$dir/$value");
 			}
 			}else{
+				if($remove_spaces){
 				$pathy = str_replace(' ', '_', $dir);
 				rename($dir,$pathy);
 				$fily = str_replace(' ', '_', $value);
 				rename("$pathy/$value","$pathy/$fily");
 				$result[]="$pathy/$fily";
+				}else{
+					$result[]="$dir/$value";
+				}
 			}
 			continue;
 		} 
